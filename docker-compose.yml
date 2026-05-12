@@ -17,5 +17,19 @@ services:
       timeout: 5s
       retries: 10
 
+  recommendation-service:
+    build: ./recommendation-service
+    container_name: ms-recommendation
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/recommendation_db
+      SPRING_DATASOURCE_USERNAME: msuser
+      SPRING_DATASOURCE_PASSWORD: mspass
+      CHAOS_MODE: ${CHAOS_MODE:-false}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 volumes:
   postgres-data:
