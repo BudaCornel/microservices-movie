@@ -15,7 +15,7 @@ public class Movie {
     @Column(length = 2000)
     private String description;
 
-    protected Movie() {}
+    protected Movie() { }
 
     public Movie(String id, String title, String description) {
         this.id = id;

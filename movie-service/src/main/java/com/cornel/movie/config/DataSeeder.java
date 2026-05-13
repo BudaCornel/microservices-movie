@@ -2,6 +2,8 @@ package com.cornel.movie.config;
 
 import com.cornel.movie.entity.Movie;
 import com.cornel.movie.repository.MovieRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +13,13 @@ import java.util.List;
 @Configuration
 public class DataSeeder {
 
+    private static final Logger log = LoggerFactory.getLogger(DataSeeder.class);
+
     @Bean
     CommandLineRunner seedMovies(MovieRepository repo) {
         return args -> {
             if (repo.count() > 0) return;
+            log.info("Seeding movies…");
             repo.saveAll(List.of(
                     new Movie("m1", "The Fellowship of the Ring",
                             "A hobbit and a fellowship set out to destroy a powerful ring."),

@@ -1,6 +1,6 @@
 package com.cornel.movie.controller;
 
-import com.cornel.movie.entity.Movie;
+import com.cornel.movie.dto.MovieResponse;
 import com.cornel.movie.service.MovieService;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +15,7 @@ public class MovieController {
     }
 
     @GetMapping("/{id}")
-    public Movie getMovie(@PathVariable String id) {
-        return service.getMovie(id);
+    public MovieResponse getMovie(@PathVariable String id) {
+        return service.getMovieWithRecommendations(id);
     }
 }
