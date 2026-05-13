@@ -31,5 +31,33 @@ services:
       postgres:
         condition: service_healthy
 
+  movie-service:
+    build: ./movie-service
+    container_name: ms-movie
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/movie_db
+      SPRING_DATASOURCE_USERNAME: msuser
+      SPRING_DATASOURCE_PASSWORD: mspass
+      RECOMMENDATION_SERVICE_URL: http://recommendation-service:8082
+    depends_on:
+      postgres:
+        condition: service_healthy
+      recommendation-service:
+        condition: service_started
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: ms-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      MOVIE_SERVICE_URL: http://movie-service:8081
+      RECOMMENDATION_SERVICE_URL: http://recommendation-service:8082
+    depends_on:
+      - movie-service
+      - recommendation-service
+
 volumes:
   postgres-data:
