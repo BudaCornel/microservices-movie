@@ -32,18 +32,13 @@ management:
       enabled: true
 
 
-resilience4j:
-  circuitbreaker:
-    instances:
-      recommendationService:
-        sliding-window-type: COUNT_BASED
-        sliding-window-size: 10                       # last 10 calls considered
-        minimum-number-of-calls: 5                    # need >=5 before CB can open
-        failure-rate-threshold: 50                    # 50% failures -> OPEN
-        wait-duration-in-open-state: 10s              # stays OPEN for 10s
-        permitted-number-of-calls-in-half-open-state: 3
-        automatic-transition-from-open-to-half-open-enabled: true
-        register-health-indicator: true
+breaker:
+  sliding-window-size: 10
+  minimum-calls: 5
+  failure-rate-threshold: 50
+  wait-duration: PT10S
+  permitted-calls-in-half-open: 3
+
 
 logging:
   level:
